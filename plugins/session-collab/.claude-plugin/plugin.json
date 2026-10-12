@@ -1,0 +1,8 @@
+{
+  "name": "session-collab",
+  "version": "0.1.0",
+  "description": "같은 PC의 다른 Claude Code 세션과 [COLLAB v1] 형식으로 여러 턴 대화하며 협업합니다. /session-collab:collab <상대 세션> <작업>",
+  "author": {
+    "name": "suhoon"
+  }
+}

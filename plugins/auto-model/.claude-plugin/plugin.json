@@ -1,0 +1,9 @@
+{
+  "name": "auto-model",
+  "version": "0.1.1",
+  "description": "프롬프트의 작업 종류(키워드)에 따라 메인 세션 요청의 모델을 Haiku/Sonnet/Opus로 고릅니다. 기본 꺼짐, /auto-model on|off|status. /model로 직접 고르면 그 세션은 자동 선택을 멈춥니다.",
+  "types": "./types/index.d.ts",
+  "author": {
+    "name": "suhoon"
+  }
+}
