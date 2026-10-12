@@ -1,109 +1,202 @@
 # claude-mods
 
-Claude Code용 mods 6개입니다. 파일을 내려받을 필요 없이 Claude Code 안에서 프롬프트만으로 설치합니다.
+Claude Code 화면에 기능을 더해 주는 mods(플러그인) 6개입니다.
+파일을 내려받을 필요가 없습니다. Claude Code에 아래 문장을 **복사해서 붙여넣기만** 하면 Claude가 설치를 진행합니다.
 
-| 플러그인 | 기능 |
-|---|---|
-| agent-board | 서브에이전트·스킬·MCP·백그라운드 작업 현황 패널, 고양이. `/agent-board`로 열고 닫음 |
-| auto-model | 작업 종류별 모델 자동 선택. 기본 꺼짐, `/auto-model on` |
-| session-collab | 같은 PC의 다른 Claude Code 세션과 여러 턴 협업. `/session-collab:collab <상대> <작업>` |
-| blast-radius | 위험한 셸 명령(rm -rf, git reset --hard, force push 등)을 멈추고 변경 범위를 보여준 뒤 진행/취소 선택 |
-| replay-theater | 직전 턴의 파일 수정을 diff 단위로 재생 |
-| token-weather | 컨텍스트 사용량을 신호등으로 표시 (초록 <50%, 노랑 50~74%, 빨강 75% 이상) |
+| 플러그인 | 무엇을 해 주나요 | 쓰는 법 |
+|---|---|---|
+| agent-board | 서브에이전트·스킬·MCP·백그라운드 작업 현황을 보여 주는 패널 (고양이 포함) | `/agent-board` 입력으로 열고 닫기 |
+| auto-model | 작업 종류에 맞춰 모델(Haiku/Sonnet/Opus)을 자동으로 골라 줌 | 기본 꺼짐. `/auto-model on`으로 켜기 |
+| session-collab | 같은 PC에서 열린 다른 Claude Code 창과 대화하며 협업 | `/session-collab:collab <상대 이름> <맡길 일>` |
+| blast-radius | 파일을 지우는 위험한 명령(rm -rf, git reset --hard 등)을 실행 전에 멈추고 영향을 보여 줌 | 자동. 진행/취소 버튼이 뜸 |
+| replay-theater | Claude가 방금 고친 파일 내용을 한 단계씩 다시 보여 줌 | 수정 후 입력창 위의 `Replay` 버튼 |
+| token-weather | 대화 기억 공간(context) 사용량을 신호등 색으로 표시 | 자동. 입력창 바로 위 |
 
-요구 사항: Claude Code 2.1.295 이상, Mods 기능을 사용할 수 있는 계정. Windows는 Git for Windows(Git Bash)가 필요합니다. Linux는 검증하지 않았습니다.
+---
 
-같은 기능을 직접 만들어 보고 싶다면 [BUILD-PROMPTS.md](BUILD-PROMPTS.md)를 참고하세요.
+## 시작하기 전에 (처음 한 번만)
 
-## 설치: 단계별 프롬프트
+### 필요한 것
 
-Claude Code를 실행하고 아래 블록을 한 단계씩 붙여넣으세요.
+- **Claude Code 2.1.295 이상**이 설치되어 있고 로그인되어 있어야 합니다.
+- **Windows 사용자는 Git for Windows**가 필요합니다. blast-radius가 사용합니다. 없으면 1단계에서 Claude가 설치 방법을 알려 줍니다.
+- **Mods 기능을 쓸 수 있는 계정**이어야 합니다. 1단계에서 자동으로 확인합니다.
+- macOS와 Windows에서 확인했습니다. Linux는 확인하지 않았습니다.
 
-### 1단계: 마켓플레이스 추가
+### Claude Code 여는 법
+
+1. 터미널을 엽니다.
+   - Windows: 시작 메뉴에서 **PowerShell** 또는 **터미널**을 검색해서 엽니다.
+   - macOS: Spotlight(⌘+Space)에서 **터미널**을 검색해서 엽니다.
+2. `claude` 를 입력하고 Enter를 누릅니다.
+3. 아래쪽에 입력창이 보이면 준비된 것입니다. 이 README의 회색 상자 안 내용을 복사해서 이 입력창에 붙여넣고 Enter를 누르면 됩니다.
+
+### 꼭 알아둘 것
+
+- **Claude가 "이 명령을 실행해도 될까요?"라고 물으면** 내용을 읽고 `Yes`를 고르세요. 설치 명령(`claude plugin ...`)을 실행하려면 허락이 필요합니다.
+- `/`로 시작하는 줄은 **슬래시 명령**입니다. 입력창에 그대로 입력하면 Claude Code가 바로 실행합니다.
+- 각 단계가 끝나면 Claude가 보여 주는 결과를 확인한 뒤 다음 단계로 넘어가세요.
+
+---
+
+## 설치 (5단계, 약 5분)
+
+### 1단계: 준비 상태 점검
+
+설치 전에 내 컴퓨터가 준비되었는지 확인합니다. **이 단계는 아무것도 바꾸지 않습니다.**
 
 ```
-/plugin marketplace add akaz01/claude-mods
-```
-
-### 2단계: 환경 점검 (아무것도 바꾸지 않음)
-
-```
-claude-mods 플러그인을 설치하려고 해. 아직 아무것도 설치하거나 수정하지 말고 아래 항목만 확인해서 표로 알려줘.
-1. 운영체제
+claude-mods 플러그인을 설치하려고 해. 나는 초보자야. 아직 아무것도 설치하거나 바꾸지 말고 아래 항목만 확인해서 표로 알려줘.
+1. 운영체제가 Windows인지 macOS인지
 2. `claude --version` 결과가 2.1.295 이상인지
-3. Windows라면 Git for Windows의 bash.exe 절대경로. 보통 C:\Program Files\Git\bin\bash.exe 이고,
-   찾은 bash.exe로 `command -v cygpath git sleep find du` 가 모두 성공하는지도 확인해줘.
-4. `claude plugin marketplace list`에 claude-mods가 등록되어 있는지
-조건이 하나라도 안 맞으면 해결 방법만 알려주고 멈춰줘.
+3. Windows라면 Git for Windows의 bash.exe가 있는지와 그 전체 경로 (보통 C:\Program Files\Git\bin\bash.exe)
+4. Mods 기능을 쓸 수 있는지: 새로 만든 빈 임시 폴더에서 `claude plugin test`를 실행해서
+   "no hooks module to load"가 나오면 사용 가능이야. 확인이 끝나면 그 빈 임시 폴더는 지워줘.
+하나라도 안 되면, 내가 따라 할 수 있게 해결 방법을 쉬운 말로 한 단계씩 알려주고 멈춰줘.
 ```
 
-### 3단계: 플러그인 6개 설치
+**성공하면:** 네 항목이 모두 "OK"인 표가 나옵니다.
+
+**안 되면:**
+- 버전이 낮다고 나오면 터미널에서 `claude update`를 실행한 뒤 다시 1단계를 하세요.
+- Windows에서 Git이 없다고 나오면 PowerShell에서 `winget install --id Git.Git -e`를 실행하거나 https://git-scm.com/downloads/win 에서 설치하세요. 그다음 터미널을 닫았다가 다시 열고 1단계를 다시 하세요.
+- Mods를 쓸 수 없다고 나오면 아쉽지만 지금 계정이나 버전에서는 이 플러그인들이 동작하지 않습니다.
+
+### 2단계: 설치
 
 ```
-claude-mods 마켓플레이스의 플러그인 6개를 user 범위로 설치해줘. 각 명령의 결과를 확인하면서 하나씩 진행해줘.
-claude plugin install agent-board@claude-mods --scope user
+claude-mods 플러그인 6개를 설치해줘. 명령을 하나씩 실행하고 각 결과를 확인해줘.
+1. claude plugin install agent-board --marketplace akaz01/claude-mods --scope user
+   (이 명령이 claude-mods 마켓플레이스 등록과 첫 번째 설치를 함께 해)
+2. claude plugin install auto-model@claude-mods --scope user
+3. claude plugin install session-collab@claude-mods --scope user
+4. claude plugin install replay-theater@claude-mods --scope user
+5. claude plugin install token-weather@claude-mods --scope user
+6. blast-radius는 운영체제에 맞게 설치해줘.
+   - Windows: 1단계에서 찾은 bash.exe 전체 경로를 넣어서
+     claude plugin install blast-radius@claude-mods --scope user --config "bashExecutable=<bash.exe 전체 경로>"
+   - macOS: claude plugin install blast-radius@claude-mods --scope user
+"already installed"가 나오면 이미 설치된 것이니 다음으로 넘어가면 돼.
+settings.json 같은 설정 파일을 직접 고치지는 마.
+```
+
+**성공하면:** 각 줄마다 `✔ Successfully installed plugin`이나 `already installed`가 나옵니다.
+
+### 3단계: 설치 결과 확인
+
+```
+`claude plugin list --json`으로 claude-mods 플러그인 6개가 모두 설치되어 있고 켜져(enabled) 있는지 표로 보여줘.
+버전도 아래와 같은지 확인해줘.
+agent-board 0.7.0, auto-model 0.1.1, session-collab 0.1.0, blast-radius 0.1.1, replay-theater 0.1.2, token-weather 0.2.1
+꺼져 있는 것이 있으면 `claude plugin enable <이름>@claude-mods --scope user`로 켜줘.
+Windows라면 `claude plugin configure blast-radius@claude-mods`를 실행해서 bashExecutable 옆에 "set"이라고 나오는지도 확인해줘. "not set"이면 Git Bash 경로가 빠진 거야.
+```
+
+**성공하면:** 6줄 모두 enabled이고 버전이 같은 표가 나옵니다.
+
+### 4단계: 새로 시작하기
+
+설치한 기능은 **새로 시작한 Claude Code에서** 동작합니다. 둘 중 하나를 하세요.
+
+- 입력창에 `/exit` 를 입력해 종료한 다음 `claude` 로 다시 시작합니다.
+- 또는 지금 창에서 `/reload-plugins` 를 입력합니다.
+
+### 5단계: 하나씩 써 보기
+
+새로 시작한 Claude Code에 붙여넣으세요.
+
+```
+방금 설치한 mods가 잘 동작하는지 하나씩 같이 확인하고 싶어. 나는 초보자니까 한 번에 하나씩 안내해줘.
+1. agent-board: 내가 /agent-board 를 입력하면 패널이 열리고, 한 번 더 입력하면 닫히는지
+2. auto-model: 내가 /auto-model status 를 입력하면 "꺼짐" 상태가 나오는지
+3. token-weather: 네가 짧게 한 번 대답한 뒤 입력창 바로 위에 ● 신호등 줄이 보이는지
+4. replay-theater: 시스템 임시 폴더에 테스트용 파일을 하나 만들고 한 줄 고쳐줘. 그 뒤 입력창 위에 Replay 버튼이 보이는지
+5. blast-radius: 시스템 임시 폴더 안에 테스트 폴더를 새로 만들고 그 폴더만 rm -rf 로 지우는 명령을 실행해줘.
+   진행/취소 버튼이 나오면 내가 취소를 누를 거야. 그 뒤 테스트 폴더가 그대로 남아 있는지 확인해줘.
+각 항목마다 내가 무엇을 입력하고 화면 어디를 보면 되는지 알려줘. 내 프로젝트 파일은 절대 건드리지 마.
+```
+
+session-collab은 Claude Code 창이 두 개 필요합니다. 터미널을 하나 더 열어 `claude`를 실행한 뒤, 한쪽 창에서 `/session-collab:collab <상대 창 이름> <맡길 일>`을 입력하세요. 상대 창 이름은 Claude에게 "다른 세션 목록 보여줘"라고 하면 알 수 있습니다.
+
+---
+
+## Claude에게 맡기지 않고 직접 설치하기
+
+터미널에 아래 명령을 한 줄씩 입력해도 됩니다. Claude Code 밖, 즉 `claude`를 실행하기 전의 터미널에서 입력합니다.
+
+```
+claude plugin install agent-board --marketplace akaz01/claude-mods --scope user
 claude plugin install auto-model@claude-mods --scope user
 claude plugin install session-collab@claude-mods --scope user
 claude plugin install replay-theater@claude-mods --scope user
 claude plugin install token-weather@claude-mods --scope user
-blast-radius는 운영체제에 맞게 설치해줘.
-- Windows: 2단계에서 찾은 bash.exe 절대경로를 넣어서
-  claude plugin install blast-radius@claude-mods --scope user --config "bashExecutable=<bash.exe 절대경로>"
-- macOS: claude plugin install blast-radius@claude-mods --scope user
-이미 설치된 플러그인이 있으면 install 대신 `claude plugin update <id> --scope user`를 실행해줘.
-settings.json을 직접 수정하지는 마.
 ```
 
-### 4단계: 설치 검증
+blast-radius는 운영체제에 따라 다르게 입력합니다.
 
 ```
-`claude plugin list --json`으로 claude-mods의 6개 플러그인이 모두 user 범위로 설치되어 있고 enabled 상태인지,
-버전이 아래와 같은지 표로 확인해줘. 꺼져 있으면 `claude plugin enable <id> --scope user`로 켜줘.
-agent-board 0.7.0, auto-model 0.1.1, session-collab 0.1.0, blast-radius 0.1.1, replay-theater 0.1.2, token-weather 0.2.1
-Windows라면 blast-radius의 bashExecutable 설정이 bash.exe 절대경로로 되어 있는지도 확인해줘.
+# Windows (Git을 기본 위치에 설치한 경우)
+claude plugin install blast-radius@claude-mods --scope user --config "bashExecutable=C:\Program Files\Git\bin\bash.exe"
+
+# macOS
+claude plugin install blast-radius@claude-mods --scope user
 ```
 
-확인이 끝나면 Claude Code를 종료하고 새 세션을 엽니다. 열린 세션에서는 `/reload-plugins`를 실행해도 됩니다.
+---
 
-### 5단계: 새 세션에서 동작 확인
+## 자주 생기는 문제
+
+| 화면에 나온 말 / 증상 | 원인 | 해결 |
+|---|---|---|
+| `Plugin "..." not found in marketplace "claude-mods"` | 플러그인 이름 오타 | 위 표의 이름을 그대로 복사해서 다시 입력 |
+| `Repository not found` | 저장소 이름 오타 | `akaz01/claude-mods`인지 확인 (끝에 s가 있음) |
+| `1 userConfig option not yet set` (blast-radius) | Windows에서 Git Bash 경로를 넣지 않고 설치함 | Claude Code 입력창에 `/plugin configure blast-radius@claude-mods`를 입력하고 bash.exe 전체 경로를 넣기 |
+| PowerShell에서 `claude` 실행 시 "스크립트를 실행할 수 없으므로" | PowerShell 실행 정책이 막음 | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` 실행 후 터미널을 다시 열기 |
+| `/agent-board`를 입력해도 반응이 없음 | 설치 후 새로 시작하지 않음 | `/reload-plugins` 입력 또는 Claude Code를 다시 시작 |
+| 신호등이 안 보임 | 새 대화에서 아직 응답이 한 번도 없음 (첫 응답 뒤에 나타남) | Claude에게 아무 말이나 한 번 보내기 |
+| 위 방법으로도 안 됨 | — | 아래 프롬프트로 Claude에게 진단 맡기기 |
 
 ```
-설치한 mods가 실제로 동작하는지 하나씩 확인하려고 해. 순서대로 안내해줘.
-1. /agent-board 로 대시보드 패널이 열리는지 (한 번 더 실행하면 닫힘)
-2. /auto-model status 로 상태 확인 (기본은 OFF, 쓰고 싶을 때 /auto-model on)
-3. token-weather 신호등이 프롬프트 위에 나타나는지
-4. blast-radius: 임시 폴더를 하나 만들고 그 안에서만 `rm -rf <임시 폴더>/test` 같은 명령을 실행하게 해서, 진행/취소 버튼이 나오는지 확인하고 취소를 눌러줘
-5. replay-theater: 임시 파일을 하나 수정한 다음 턴에서 수정 재생이 보이는지
-6. session-collab: 다른 터미널에서 Claude Code 세션을 하나 더 연 뒤 /session-collab:collab 으로 연결되는지
-각 항목마다 내가 무엇을 입력하고 화면에서 무엇을 확인하면 되는지 알려줘. 실제 프로젝트 파일은 건드리지 마.
+claude-mods 설치나 실행 중에 문제가 생겼어. 나는 초보자야. 아래 오류를 분석해서 쉬운 말로 원인과 해결 방법을 알려줘.
+[여기에 오류 메시지나 증상을 붙여넣기]
+설정 파일을 고쳐야 한다면 무엇을 왜 바꾸는지 먼저 보여주고 내 허락을 받아줘. managed settings는 건드리지 마.
 ```
+
+---
 
 ## 업데이트
 
+새 버전이 나오면 붙여넣으세요.
+
 ```
 claude-mods를 최신 버전으로 업데이트해줘.
-`claude plugin marketplace update claude-mods`를 실행한 다음, 설치된 claude-mods 플러그인마다 `claude plugin update <id> --scope user`를 실행해줘.
+먼저 `claude plugin marketplace update claude-mods`를 실행하고, 설치된 claude-mods 플러그인마다 `claude plugin update <이름>@claude-mods --scope user`를 실행해줘.
+끝나면 버전 표를 보여줘.
 ```
 
-## 문제가 생겼을 때
-
-```
-claude-mods 설치나 실행 중에 문제가 생겼어. 아래 오류를 분석해줘.
-[오류 메시지 붙여넣기]
-설정 파일을 직접 수정하기 전에 무엇을 바꿀지 먼저 보여주고 내 승인을 받아줘.
-managed settings나 rollout 플래그는 건드리지 마.
-```
+업데이트한 뒤에는 `/reload-plugins`를 입력하거나 Claude Code를 다시 시작하세요.
 
 ## 제거
 
 ```
-claude-mods 플러그인 6개를 제거하고 싶어. 실행할 명령 목록을 먼저 보여주고 내가 승인하면 실행해줘.
-`claude plugin uninstall <id>@claude-mods --scope user`로 6개를 제거하고 마지막에 `claude plugin marketplace remove claude-mods`를 실행하는 거야.
+claude-mods 플러그인 6개를 지우고 싶어. 실행할 명령 목록을 먼저 보여주고 내가 허락하면 실행해줘.
+`claude plugin uninstall <이름>@claude-mods --scope user`로 6개를 지우고, 마지막에 `claude plugin marketplace remove claude-mods`를 실행하는 거야.
 ```
+
+---
+
+## 용어 풀이
+
+- **Claude Code**: 터미널에서 쓰는 Claude입니다. `claude`를 입력하면 시작됩니다.
+- **플러그인 / mod**: Claude Code에 기능을 더하는 작은 확장입니다. 이 저장소의 6개가 그것입니다.
+- **마켓플레이스**: 플러그인 목록입니다. 이 저장소가 `claude-mods`라는 이름의 마켓플레이스입니다.
+- **슬래시 명령**: `/agent-board`처럼 `/`로 시작하는 명령입니다. 입력창에 입력하면 바로 실행됩니다.
+- **context(컨텍스트)**: Claude가 지금 대화에서 기억하고 있는 내용의 양입니다. 가득 차면 오래된 내용을 요약(compact)합니다. token-weather 신호등이 초록(50% 미만) → 노랑 → 빨강 순으로 알려 줍니다.
 
 ## 알아둘 점
 
-- auto-model에 설정된 모델은 설치한 사람의 계정에서도 사용할 수 있어야 합니다.
-- 사용 한도는 로그인한 계정의 실제 조회값만 표시합니다.
+- auto-model이 고르는 모델은 설치한 사람의 계정에서 쓸 수 있는 모델이어야 합니다.
+- agent-board의 사용 한도 표시는 로그인한 계정의 실제 값만 보여 줍니다.
+- 같은 기능을 직접 만들어 보고 싶다면 [BUILD-PROMPTS.md](BUILD-PROMPTS.md)를 참고하세요.
 - blast-radius, replay-theater, token-weather는 Apache License 2.0 예제 코드를 수정한 버전입니다. 라이선스 조건에 따라 [NOTICE](NOTICE)와 [LICENSE-APACHE-2.0](LICENSE-APACHE-2.0)을 함께 둡니다.
 - Anthropic과 Claude 명칭 및 마크는 Anthropic의 상표입니다. 이 저장소는 Anthropic과 제휴하거나 승인받은 것이 아닙니다.
