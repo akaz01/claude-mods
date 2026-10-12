@@ -59,7 +59,7 @@ settings.json을 직접 수정하지는 마.
 ```
 `claude plugin list --json`으로 claude-mods의 6개 플러그인이 모두 user 범위로 설치되어 있고 enabled 상태인지,
 버전이 아래와 같은지 표로 확인해줘. 꺼져 있으면 `claude plugin enable <id> --scope user`로 켜줘.
-agent-board 0.7.0, auto-model 0.1.1, session-collab 0.1.0, blast-radius 0.1.1, replay-theater 0.1.1, token-weather 0.2.0
+agent-board 0.7.0, auto-model 0.1.1, session-collab 0.1.0, blast-radius 0.1.1, replay-theater 0.1.2, token-weather 0.2.1
 Windows라면 blast-radius의 bashExecutable 설정이 bash.exe 절대경로로 되어 있는지도 확인해줘.
 ```
 

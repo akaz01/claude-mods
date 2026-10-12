@@ -55,12 +55,16 @@ export function register(on) {
     return result;
   });
 
-  on("ui.render", { component: "AbovePrompt" }, ($, e, next) => {
+  // Stack the light over whatever the plugins beneath draw, so another mod's
+  // band (replay-theater's hint) never hides it and it never hides theirs.
+  on("ui.render", { component: "AbovePrompt" }, async ($, e, next) => {
     if (e.hasSurvey || readings.length === 0) {
       return next(e);
     }
     const { Box, Text } = $.ui.resolve(e);
-    return band(Box, Text, e.bodyColumns ?? 80);
+    const below = await next(e);
+    const light = band(Box, Text, e.bodyColumns ?? 80);
+    return below ? Box({ flexDirection: "column", children: [light, below] }) : light;
   });
 }
 
