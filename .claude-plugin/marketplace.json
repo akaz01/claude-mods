@@ -4,7 +4,7 @@
     "name": "suhoon"
   },
   "metadata": {
-    "description": "Claude Code mods: 현황 대시보드, 자동 모델 선택, 세션 협업, 그리고 anthropics/claude-code-playground 예제 mods 수정본"
+    "description": "Claude Code mods: 현황 대시보드, 자동 모델 선택, 세션 협업"
   },
   "plugins": [
     {
@@ -21,21 +21,6 @@
       "name": "session-collab",
       "source": "./plugins/session-collab",
       "description": "다른 Claude Code 세션과 [COLLAB v1] 형식으로 여러 턴 협업 (/session-collab:collab <상대> <작업>)"
-    },
-    {
-      "name": "blast-radius",
-      "source": "./plugins/blast-radius",
-      "description": "위험한 셸 명령을 멈추고 변경 범위를 보여줍니다. 출처: anthropics/claude-code-playground (Apache-2.0, Anthropic PBC), Windows용 수정본."
-    },
-    {
-      "name": "replay-theater",
-      "source": "./plugins/replay-theater",
-      "description": "직전 턴의 파일 수정을 diff 단위로 다시 봅니다. 출처: anthropics/claude-code-playground (Apache-2.0, Anthropic PBC), Windows용 수정본."
-    },
-    {
-      "name": "token-weather",
-      "source": "./plugins/token-weather",
-      "description": "컨텍스트 창 상태를 프롬프트 위에 표시합니다. 출처: anthropics/claude-code-playground (Apache-2.0, Anthropic PBC), 수정본."
     }
   ]
 }
